@@ -133,9 +133,9 @@ for t in range(trials):
                 h.add_edge(i * n + j, (i % n) * n + (j - 1) % n)
 
     print nx.is_bipartite(h)
-    start_time = time.clock()
+    start_time = time.process_time()
     print len(nx.bipartite.maximum_matching(h))/2.0
-    print 'solve_time: ' + str(time.clock() - start_time)
+    print 'solve_time: ' + str(time.process_time() - start_time)
     len_edges = len(h.edges())
     print 'edges: ' + str(len_edges)
     deg_arr = []
@@ -145,18 +145,18 @@ for t in range(trials):
     print np.std(deg_arr)
     cc = nx.number_connected_components(h)
     print cc
-    start_time = time.clock()
-    print 'bfs time: ' + str(time.clock() - start_time)
+    start_time = time.process_time()
+    print 'bfs time: ' + str(time.process_time() - start_time)
     l0, pid0 = mv0f.mv_max_cardinality(h, 1, True, 100)
     print len(l0)/2.0
-    l0_time = time.clock() - start_time
+    l0_time = time.process_time() - start_time
     print 'solve time: ' + str(l0_time)
     print ' '
 
-    start_time = time.clock()
+    start_time = time.process_time()
     l1, pid1 = mv0f.mv_max_cardinality(h, 1, False, 100)
     print len(l1)/2.0
-    l1_time = time.clock() - start_time
+    l1_time = time.process_time() - start_time
     print 'solve time: ' + str(l1_time)
     results.append([ed, 20, n, len_edges, cc, pid0, pid1, l0_time, l1_time])
 fil = open(os.getcwd() + "/results_grid_large_" + str(node_exp) + "_" + str(ed * 4.0) + ".csv", "wb")

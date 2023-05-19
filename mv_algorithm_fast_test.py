@@ -74,7 +74,7 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
         global matched, G
         nodes = set([])
         node_list = []
-        for u in G.nodes_iter():
+        for u in G.nodes():
             node_list.append((G.degree(u),u))
         sorted_list = sorted(node_list)
         for deg, u in sorted_list:
@@ -269,7 +269,7 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
                         if matched == total_nodes/2:
                             return augmented
                     else:
-                        print 'aug failed'
+                        print('aug failed')
                 else:
                     'pid error?'
             else:
@@ -281,12 +281,12 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
                 else:
                     'pid error?'
         if augmented and not aug_completed == aug_limit:
-            print 'phase augmented: ' + str(phase)
-            print 'bridges: ' + str(bridges_in_phase)
-            print 'augmented: ' + str(total_augmented)
-            print 'blossomed: ' + str(blossoms_max)
-            print 'deleted: ' + str(deleted)
-            print ''
+            print('phase augmented: ' + str(phase))
+            print('bridges: ' + str(bridges_in_phase))
+            print('augmented: ' + str(total_augmented))
+            print('blossomed: ' + str(blossoms_max))
+            print('deleted: ' + str(deleted))
+            print('')
             prev_phase = phase
             aug_completed += 1
             augmented = False
@@ -523,13 +523,13 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
                         path += path_addition
                         curr_node = node_petal[new_petal].base
                         while node_petal[curr_node] != petal and curr_node != lo:
-                            print 'petal digging'
+                            print('petal digging')
                             path.pop()
                             if node_petal[curr_node]:
                                 path += openPetal(curr_node, node_petal[curr_node].base)
                                 curr_node = node_petal[curr_node].base
                             else:
-                                print 'bud failure'
+                                print('bud failure')
                                 return False
                     else:
                         path += dfs_petal(new_petal, node_petal[new_petal].base, node_petal[new_petal])
@@ -546,21 +546,21 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
         l_path.reverse()
         path = l_path + r_path
         if len(path) != phase * 2 + 2:
-            print 'augment length error'
+            print('augment length error')
             for i in range(len(path)-1):
-                print edge_matched[tuple(sorted([path[i],path[i+1]]))]
+                print(edge_matched[tuple(sorted([path[i],path[i+1]]))])
             for n in path:
-                print str(n) + ' ' + str(node_level[n]) + ' ' + str(node_pred[n]) + ' ' + str(node_succ[n])
+                print(str(n) + ' ' + str(node_level[n]) + ' ' + str(node_pred[n]) + ' ' + str(node_succ[n]))
                 for n1 in node_succ[n]:
-                    print str(n1) + ' ' + str(node_level[n1])
-            print 'augment length error'
+                    print(str(n1) + ' ' + str(node_level[n1]))
+            print('augment length error')
             return False
         prev_edge = 1
         saved_aug = {}
         for i in range(len(path)-1):
             e = tuple(sorted([path[i],path[i+1]]))
             if prev_edge == edge_matched[e]:
-                print 'augmentation path error at i = ' + str(i)
+                print('augmentation path error at i = ' + str(i))
                 return False
             prev_edge = edge_matched[e]
             saved_aug[e] = 1 - edge_matched[e]
@@ -621,10 +621,10 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
             done = MIN(phase)
             aug = MAX(phase)
             if done and aug_completed == 1:
-                print 'end phase: ' + str(phase)
+                print('end phase: ' + str(phase))
                 return False
             phase += 1
-        print 'end phase: ' + str(phase)
+        print('end phase: ' + str(phase))
         return True
 
 
@@ -666,40 +666,40 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
 
     run = True
     init_graph()
-    start_time = time.clock()
+    start_time = time.process_time()
     if greedy_node_order:
         greedy_alg_2()
     else:
         greedy_alg()
-    print 'greedy algorithm time: ' + str(time.clock()-start_time)
-    print 'matches: ' + str(matched)
-    total_time += time.clock() - start_time
+    print('greedy algorithm time: ' + str(time.process_time()-start_time))
+    print('matches: ' + str(matched))
+    total_time += time.process_time() - start_time
     phase_reset()
     while run:
-        start_time = time.clock()
+        start_time = time.process_time()
         prev_matched = matched
         blossoms = 0
         aug_bridge = 0
         blossom_bridge = 0
         aug_completed = 1
         total_bridges = 0
-        print '\nphase: ' + str(pid)
+        print('\nphase: ' + str(pid))
         run = search()
         pid += 1
-        alg_time = time.clock() - start_time
+        alg_time = time.process_time() - start_time
         total_time += alg_time
-        phase_time = time.clock()
+        phase_time = time.process_time()
         phase_reset()
-        print 'phase time: ' + str(time.clock() - phase_time)
-        print 'algorithm time: ' + str(alg_time)
-        print 'matches: ' + str(matched)
-        print 'blossoms: ' + str(blossoms)
-        print 'new matches: ' + str(matched - prev_matched)
+        print('phase time: ' + str(time.process_time() - phase_time))
+        print('algorithm time: ' + str(alg_time))
+        print('matches: ' + str(matched))
+        print('blossoms: ' + str(blossoms))
+        print('new matches: ' + str(matched - prev_matched))
         if matched - prev_matched != 0:
             matched_arr.append(matched - prev_matched)
-        print 'aug bridges: ' + str(aug_bridge)
-        print 'blossom bridges: ' + str(blossom_bridge)
-        print 'total bridges: ' + str(total_bridges)
+        print('aug bridges: ' + str(aug_bridge))
+        print('blossom bridges: ' + str(blossom_bridge))
+        print('total bridges: ' + str(total_bridges))
         if matched == total_nodes/2:
             break
     aug_dict = {}
@@ -713,8 +713,8 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
     for i in reversed(matched_arr):
         total_sum += i
         percent_matched.insert(0, i/float(total_sum))
-    print 'percent matched: ' + str(percent_matched)
-    print aug_dict
+    print('percent matched: ' + str(percent_matched))
+    print(aug_dict)
     if list_matches == 1:
         node_match_list = {}
         for e in edge_matched:
@@ -722,9 +722,9 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
                 node_match_list[e[0]] = e[1]
                 node_match_list[e[1]] = e[0]
         if len(node_match_list) != 2*matched:
-            print 'error'
-            print matched
-        print 'total time: ' + str(total_time)
+            print('error')
+            print(matched)
+        print('total time: ' + str(total_time))
         if percent_matched:
             average_percent_matched = sum(percent_matched)/float(len(percent_matched))
         else:
@@ -735,7 +735,7 @@ def mv_max_cardinality(H, list_matches, greedy_node_order=False, aug_phases=1):
 if __name__ == "__main__":
     edge_list = []
     edge_count = 0
-    with open('complete_edges.csv', 'rb') as fil:
+    with open('complete_edges.csv', 'r') as fil:
         r = csv.reader(fil)
         for row in r:
             edge_count += 1
@@ -743,12 +743,12 @@ if __name__ == "__main__":
     h = nx.Graph()
     h.add_nodes_from(range(452118))
     h.add_edges_from(edge_list)
-    print len(h.edges())
-    print edge_count
-    start_time = time.clock()
+    print(len(h.edges()))
+    print(edge_count)
+    start_time = time.process_time()
     l0 = mv_max_cardinality(h, 0, False, 100)
-    print('--- %s seconds ---' % (time.clock() - start_time))
-    print l0
+    print('--- %s seconds ---' % (time.process_time() - start_time))
+    print(l0)
 
 
 

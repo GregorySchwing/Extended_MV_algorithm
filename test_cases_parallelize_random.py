@@ -28,7 +28,7 @@ for n_size in n_exp_array:
 param = test_arr[int(os.environ['SGE_TASK_ID'])-1]
 # param = test_arr[1000]
 # param = [2**(23/16.0),20,12]
-print param
+print(param)
 results = []
 node_exp = param[1]
 n = 2 ** (node_exp)
@@ -58,38 +58,38 @@ deg_arr = []
 for n1 in h.nodes():
     deg_arr.append(h.degree(n1))
 
-start_time = time.clock()
+start_time = time.process_time()
 l0, pid0, pm0 = mv0f.mv_max_cardinality(h, 1, True, 1)
-print len(l0)/2.0
-l0_time = time.clock() - start_time
-print 'solve time: ' + str(l0_time)
-print ' '
+print(len(l0)/2.0)
+l0_time = time.process_time() - start_time
+print('solve time: ' + str(l0_time))
+print(' ')
 
-start_time = time.clock()
+start_time = time.process_time()
 l1, pid1, pm1 = mv0f.mv_max_cardinality(h, 1, True, 1)
-print len(l1)/2.0
-l1_time = time.clock() - start_time
-print 'solve time: ' + str(l1_time)
-print ' '
+print(len(l1)/2.0)
+l1_time = time.process_time() - start_time
+print('solve time: ' + str(l1_time))
+print(' ')
 
-start_time = time.clock()
+start_time = time.process_time()
 l2, pid2, pm2 = mv0f.mv_max_cardinality(h, 1, False, 100)
-print len(l2)/2.0
-l2_time = time.clock() - start_time
-print 'solve time: ' + str(l2_time)
-print ' '
+print(len(l2)/2.0)
+l2_time = time.process_time() - start_time
+print('solve time: ' + str(l2_time))
+print(' ')
 
-start_time = time.clock()
+start_time = time.process_time()
 l3, pid3, pm3 = mv0f.mv_max_cardinality(h, 1, True, 100)
-print len(l3)/2.0
-l3_time = time.clock() - start_time
-print 'solve time: ' + str(l3_time)
-print ' '
+print(len(l3)/2.0)
+l3_time = time.process_time() - start_time
+print('solve time: ' + str(l3_time))
+print(' ')
 results.append(['expected_degree','node_exponent','N','E',
                 'phases_0','phases_1','phases_2','phases_3',
                 'time_0','time_1','time_2','time_3',
                 'percent_matched_0', 'percent_matched_1','percent_matched_2','percent_matched_3'])
 results.append([ed, node_exp, n, len_edges, pid0, pid1, pid2, pid3, l0_time, l1_time, l2_time, l3_time, pm0, pm1, pm2, pm3])
-print results
+print(results)
 fil = open(os.getcwd() + "/results_grid_4_" + str(node_exp) + "_" + str(ed) + "_" + str(param[2]) + ".csv", "wb")
 writeLog(fil, results)
